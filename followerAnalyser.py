@@ -25,4 +25,4 @@ for user in response.data:
 
 # By default, this endpoint/method returns 100 results
 # You can retrieve up to 1000 users by specifying max_results
-response = client.get_users_followers(user_id, max_results=100) 
+response = client.get_users_followers(user_id, max_results=1000) 
