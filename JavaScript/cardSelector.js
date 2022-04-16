@@ -16,7 +16,12 @@ var cardTwo;
 
 var rank;
 
+function stateof12(){
+    console.log(cardOne)
+    console.log(cardTwo)
 
+
+}
 
 function getRandomCard(){
     var choice = Math.floor(Math.random()*(cards.length));
@@ -51,12 +56,34 @@ function cardValue(card){
     
 }
 
-function pickCard(){
+function startGame(){
+ //   cardTwo = cardOne;
+
+    cardOne = getRandomCard();
+
+    console.log("Current card: ", cardOne);
+//    console.log("cardTwo: ", cardTwo);
+
+//    console.log(cardValue(cardOne));
+
+}
+
+function higher(){
+
     cardTwo = cardOne;
 
     cardOne = getRandomCard();
 
-    console.log("cardOne: ", cardOne);
-    console.log("cardTwo: ", cardTwo);
+    console.log(cardValue(cardOne))
+    console.log(cardValue(cardTwo))
+
+
+/*     if(cardValue(cardTwo)>cardValue(cardOne)){
+        console.log("Correct!!!");
+    } else if(cardValue(cardTwo)==cardValue(cardOne)){
+        console.log("Tie!!");
+    }else{
+        console.log("Wrong!!");
+    } */
 
 }
