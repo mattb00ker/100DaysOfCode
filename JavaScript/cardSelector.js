@@ -33,24 +33,28 @@ function getRandomCard(){
 
 function cardValue(card){
 
-    console.log(card);
+    //console.log(card);
 
     switch(card){
         case "AH":
             rank =0;
-            console.log(rank); 
+            return 0;
+            //console.log(rank); 
             break;
          case "AD":
             rank =1;
-            console.log(rank); 
+            //console.log(rank); 
+            return 1;
             break;
         case "AS":
             rank =2;
-            console.log(rank); 
+            //console.log(rank); 
+            return 2;
             break;
         case "AC":
             rank = 3;
-            console.log(rank); 
+            //console.log(rank); 
+            return 3;
             break;
     }
     
@@ -73,17 +77,39 @@ function higher(){
     cardTwo = cardOne;
 
     cardOne = getRandomCard();
+    console.log(cardOne);
 
-    console.log(cardValue(cardOne))
-    console.log(cardValue(cardTwo))
+    //console.log(cardValue(cardOne))
+    //console.log(cardValue(cardTwo))
 
 
-/*     if(cardValue(cardTwo)>cardValue(cardOne)){
+    if(cardValue(cardTwo)>cardValue(cardOne)){
         console.log("Correct!!!");
     } else if(cardValue(cardTwo)==cardValue(cardOne)){
         console.log("Tie!!");
     }else{
         console.log("Wrong!!");
-    } */
+    }
+
+}
+
+function lower(){
+
+    cardTwo = cardOne;
+
+    cardOne = getRandomCard();
+    console.log(cardOne);
+
+    //console.log(cardValue(cardOne))
+    //console.log(cardValue(cardTwo))
+
+
+    if(cardValue(cardTwo)<cardValue(cardOne)){
+        console.log("Correct!!!");
+    } else if(cardValue(cardTwo)==cardValue(cardOne)){
+        console.log("Tie!!");
+    }else{
+        console.log("Wrong!!");
+    }
 
 }
