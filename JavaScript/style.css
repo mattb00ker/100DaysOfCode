@@ -1,0 +1,19 @@
+.text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+body {
+    max-width: 240ch;
+    min-width: 50ch;
+    align-items: left;
+    background-color: aquamarine;
+
+}
