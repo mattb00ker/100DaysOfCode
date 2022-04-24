@@ -6,15 +6,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
 <! Added JavaScript file at this point, normal rules around file location>
-    <script src="myFirstJS.js"></script>
-    <title>Messing With JavaScropt</title>
+    <script src="cardSelector.js"></script>
+    <title>Making A Card Game</title>
+
+<! Added CSS to make it look pretty>
+<link rel="stylesheet" href="style.css">    
 </head>
 <body>
+    <div class = "text">
     <h1>Hello!</h1>
-    <h3>Welcome to my test website!</h3>
-    <p>I'm as excited as you are!! What's going to happen? Who knows!</p>
-<! Called function using bullton press>
-    <input type = "button" onclick = "adding(2,4)" value = "Display"> 
-    <p>Wonder if this will work</p><p> id = "text1" </p>
+    <h3>Welcome to my card game!!</h3>
+    <p id="score">Simple game of higher or lower</p>
+    <p id="currentCard">click start to begin</p>
+    </div>
+
+    <div class = "buttons">
+<! Called function using button press>
+    <input type = "button" onclick = "startGame()" value = "Start Game!"> 
+
+<! Find and return card value>
+
+    <input type = "button" onclick = "higher()" value = "Higher!">
+
+<! Pick card and assign to one of two positions>
+
+    <input type = "button" onclick = "lower()" value = "Lower">
+
+<!-- <! Check what card 1 and 2 are doing!>
+
+    <input type = "button" onclick = "stateCards()" value = "state of cards">
+
+<! Change the text>
+
+    <input type = "button" onclick = "cardText()" value = "change the text?"> -->
+</div>
 </body>
 </html>
