@@ -8,11 +8,19 @@
 <! Added JavaScript file at this point, normal rules around file location>
     <script src="cardSelector.js"></script>
     <title>Making A Card Game</title>
+
+<! Added CSS to make it look pretty>
+<link rel="stylesheet" href="style.css">    
 </head>
 <body>
+    <div class = "text">
     <h1>Hello!</h1>
     <h3>Welcome to my card game!!</h3>
-    
+    <p id="score">Simple game of higher or lower</p>
+    <p id="currentCard">click start to begin</p>
+    </div>
+
+    <div class = "buttons">
 <! Called function using button press>
     <input type = "button" onclick = "startGame()" value = "Start Game!"> 
 
@@ -24,9 +32,10 @@
 
     <input type = "button" onclick = "lower()" value = "Lower">
 
-<! Check what card 1 and 2 are doing!>
-
-    <input type = "button" onclick = "stateof12()" value = "stateof12">
-
+<!-- <! Check what card 1 and 2 are doing!>
+    <input type = "button" onclick = "stateCards()" value = "state of cards">
+<! Change the text>
+    <input type = "button" onclick = "cardText()" value = "change the text?"> -->
+</div>
 </body>
 </html>
