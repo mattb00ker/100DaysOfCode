@@ -1,6 +1,7 @@
 .text {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
 
     font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
@@ -13,9 +14,8 @@
     font-style: normal;
     font-variant: normal;
     text-transform: none;
-
-    border: 2px outset #A41E5B;
-
+    width: 450px;
+    border: 2px outset #A41E5B; 
 }
 
 .inputs {
@@ -24,6 +24,7 @@
     align-items: center;
     align-content: center;
     align-self: center;
+    justify-content: center;
 }
 
 .buttons {
@@ -56,9 +57,6 @@
 }
 
 body {
-    max-width: 240ch;
-    min-width: 50ch;
-    align-items: left;
     background: linear-gradient(to right, #1C6EA4 0%, #2388CB 50%, #144E75 100%);
 
 }
