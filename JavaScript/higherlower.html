@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+<! Added JavaScript file at this point, normal rules around file location>
+    <script src="cardSelector.js"></script>
+    <title>Making A Card Game</title>
+
+<! Added CSS to make it look pretty>
+<link rel="stylesheet" href="style.css">    
+</head>
+<body>
+    <div class="box">
+        <div class="text">
+            <h1>Hello!</h1>
+            <h3>Welcome to my card game!!</h3>
+            <p id="score">Simple game of higher or lower</p>
+            <p id="currentCard">click start to begin</p>
+        </div>
+        <div class = "buttons">
+            <! Called function using button press>
+                <input type = "button" onclick = "startGame()" value = "Start Game!"> 
+            
+            <! Find and return card value>
+            
+                <input type = "button" onclick = "higher()" value = "Higher!">
+            
+            <! Pick card and assign to one of two positions>
+            
+                <input type = "button" onclick = "lower()" value = "Lower">
+        </div>
+    </div>
+            
+</body>
+</html>

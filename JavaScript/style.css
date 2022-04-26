@@ -1,9 +1,15 @@
-.text {
+.box {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+  
 
+    flex-direction: column;
+    
+
+  }
+  
+.text {
     font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
     font-size: 16px;
     letter-spacing: 2px;
@@ -14,21 +20,11 @@
     font-style: normal;
     font-variant: normal;
     text-transform: none;
-    width: 450px;
-    border: 2px outset #A41E5B; 
-}
+  }
 
-.inputs {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    align-content: center;
-    align-self: center;
-    justify-content: center;
-}
 
-.buttons {
-    color: rgb(250, 255, 255); 
+.buttons{
+    color: rgb(255, 255, 255); 
     font-size: 16px; 
     line-height: 16px; 
     padding: 6px; 
@@ -44,19 +40,20 @@
     text-transform: none; 
     background-image: linear-gradient(to right, rgb(28, 110, 164) 0%, rgb(35, 136, 203) 50%, rgb(20, 78, 117) 100%); 
     box-shadow: rgb(0, 0, 0) 5px 5px 15px 5px; 
-    border: 6px double rgb(164, 30, 91); 
+    border: 2px solid rgb(28, 110, 164); 
     display: inline-block;
+
+
 }
 
 .buttons:hover {
-    background: #1C6EA4; 
-}
-
+    background: #1C6EA4; }
 .buttons:active {
-    background: #144E75; 
-}
+    background: #144E75; }
 
-body {
-    background: linear-gradient(to right, #1C6EA4 0%, #2388CB 50%, #144E75 100%);
-
+.body{
+    background: #2284C4;
+    background: -moz-linear-gradient(left, #2284C4 0%, #144E75 100%);
+    background: -webkit-linear-gradient(left, #2284C4 0%, #144E75 100%);
+    background: linear-gradient(to right, #2284C4 0%, #144E75 100%);
 }
