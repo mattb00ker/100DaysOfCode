@@ -1,29 +1,36 @@
 .box {
     display: flex;
     align-items: center;
-    justify-content: center;
-  
-
     flex-direction: column;
     
 
   }
-  
 .text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
     font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
     font-size: 16px;
-    letter-spacing: 2px;
-    word-spacing: 2px;
-    color: #000000;
+    letter-spacing: 0.4px;
+    word-spacing: 0px;
+    color: #FFFFFF;
     font-weight: normal;
     text-decoration: none;
     font-style: normal;
     font-variant: normal;
     text-transform: none;
-  }
+
+}  
+.inputs{
+    display:flex;
+}
+
 
 
 .buttons{
+    display: flex;
+
     color: rgb(255, 255, 255); 
     font-size: 16px; 
     line-height: 16px; 
@@ -51,7 +58,7 @@
 .buttons:active {
     background: #144E75; }
 
-.body{
+body{
     background: #2284C4;
     background: -moz-linear-gradient(left, #2284C4 0%, #144E75 100%);
     background: -webkit-linear-gradient(left, #2284C4 0%, #144E75 100%);
