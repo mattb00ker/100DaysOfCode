@@ -20,9 +20,9 @@ var cardTwo;
 // Build ranking system
 
 //var rank;
-var score;
+var score = 0;
 
-var hscore;
+var hscore = 0;
 
 function stateCards(){
     console.log(cards)
@@ -305,11 +305,12 @@ function scoreText(score){
 }
 
 function highscore(score, hscore){
-    if (score > highscore){
+    //console.log("high score", score, hscore)
+    if (score > hscore){
         console.log("score: " + score);
         console.log("hscore: " + hscore);
         hscore = score;
-        document.getElementById("highscore").innerHTML = "The current high-score is: " + highscore;
+        document.getElementById("highscore").innerHTML = "The current high-score is: " + hscore;
     }
 
 }
