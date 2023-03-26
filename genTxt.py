@@ -77,5 +77,5 @@ generated_text = generate_text(
                     model, 
                     num_generate=200, 
                     temperature=1, 
-                    start_string=u"ROMEO")
+                    start_string=u"Iran")
 print(generated_text)
