@@ -1,0 +1,29 @@
+body {
+    font-family: Arial, sans-serif;
+  }
+  
+  #game-board {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  #deck, .card, .discard-pile {
+    width: 100px;
+    height: 150px;
+    border: 1px solid black;
+    background-color: #ccc;
+  }
+  
+  .card {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  #discard-piles {
+    display: flex;
+    gap: 10px;
+  }
+  
