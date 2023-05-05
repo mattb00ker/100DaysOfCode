@@ -5,179 +5,144 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
-class Card {
-  constructor(value, suit) {
-    this.value = value;
-    this.suit = suit;
+function askQuestion(question) {
+  return new Promise((resolve) => {
+    rl.question(question, (answer) => {
+      resolve(answer);
+    });
+  });
+}
+
+const suits = ['hearts', 'diamonds', 'clubs', 'spades'];
+const values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+
+function createDeck() {
+  const deck = [];
+
+  for (const suit of suits) {
+    for (const value of values) {
+      deck.push({ suit, value });
+    }
   }
 
-  toString() {
-    return `${this.value} of ${this.suit}`;
+  return deck;
+}
+
+function shuffleDeck(deck) {
+  for (let i = deck.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [deck[i], deck[j]] = [deck[j], deck[i]];
   }
 }
 
-class Deck {
-  constructor() {
-    this.cards = [];
-    this.buildDeck();
-    this.shuffle();
+function dealCards(deck, numPlayers) {
+  const players = [];
+
+  for (let i = 0; i < numPlayers; i++) {
+    const faceDown = deck.splice(0, 3);
+    const faceUp = deck.splice(0, 3);
+    const hand = deck.splice(0, 3);
+
+    players.push({ faceDown, faceUp, hand });
   }
 
-  buildDeck() {
-    const suits = ['hearts', 'diamonds', 'clubs', 'spades'];
-    const values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
-    for (const suit of suits) {
-      for (const value of values) {
-        this.cards.push(new Card(value, suit));
-      }
-    }
-  }
-
-  shuffle() {
-    for (let i = this.cards.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [this.cards[i], this.cards[j]] = [this.cards[j], this.cards[i]];
-    }
-  }
-
-  draw() {
-    return this.cards.pop();
-  }
+  return players;
 }
 
-class Player {
-  constructor(name, isAI = false) {
-    this.name = name;
-    this.hand = [];
-    this.isAI = isAI;
-  }
-
-  addCard(card) {
-    this.hand.push(card);
-  }
-
-  playCard(cardIndex, discardPile) {
-    const selectedCard = this.hand[cardIndex];
-    const topCard = discardPile[discardPile.length - 1];
-
-    if (selectedCard.value === topCard.value || selectedCard.value > topCard.value) {
-      this.hand.splice(cardIndex, 1);
-      discardPile.push(selectedCard);
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  basicAI(discardPile) {
-    const topCard = discardPile[discardPile.length - 1];
-    for (let i = 0; i < this.hand.length; i++) {
-      if (this.hand[i].value >= topCard.value) {
-        return i;
-      }
-    }
-    return null;
-  }
+function displayCards(cards) {
+  return cards.map(card => `${card.value} of ${card.suit}`).join(', ');
 }
 
-class KarmaGame {
-  constructor(numPlayers) {
-    this.deck = new Deck();
-    this.players = [new Player('Human Player')];
-    for (let i = 1; i < numPlayers; i++) {
-      this.players.push(new Player(`AI Player ${i}`, true));
-    }
-    this.dealCards();
+function cardValue(card) {
+  return values.indexOf(card.value);
+}
+
+async function playTurn(player, pile) {
+  console.log(`\nYour hand: ${displayCards(player.hand)}`);
+  console.log(`Top card on pile: ${pile.length > 0 ? displayCards([pile[pile.length - 1]]) : 'None'}`);
+
+  const selectedIndex = parseInt(await askQuestion("Select a card from your hand (by index): "));
+  const selectedCard = player.hand[selectedIndex];
+
+  if (pile.length === 0 || cardValue(selectedCard) >= cardValue(pile[pile.length - 1])) {
+    player.hand.splice(selectedIndex, 1);
+    pile.push(selectedCard);
+  } else {
+    console.log("You don't have a high enough card. You have to pick up all the cards.");
+    player.hand.push(...pile.splice(0));
   }
 
-  dealCards() {
-    while (this.deck.cards.length > 0) {
-      for (const player of this.players) {
-        const card = this.deck.draw();
-        if (card) {
-          player.addCard(card);
-        } else {
-          break;
-        }
-      }
-    }
-  }
-  
-  playTurn(playerIndex, cardIndex = null) {
-    const player = this.players[playerIndex];
-    const discardPile = this.discardPile;
-
-    if (cardIndex !== null) {
-      const played = player.playCard(cardIndex, discardPile);
-      if (!played) {
-        console.log(`${player.name} cannot play this card.`);
-      } else {
-        console.log(`${player.name} played the ${discardPile[discardPile.length - 1].toString()}.`);
-      }
-    } else {
-      console.log(`${player.name} skipped their turn.`);
-    }
-
-    if (player.hand.length === 0) {
-      console.log(`${player.name} has won the game!`);
-      this.gameOver = true;
-    }
+  if (player.hand.length === 0) {
+    console.log("Congratulations! You have no more cards in your hand.");
+    return true;
   }
 
-  async startGame() {
-    this.discardPile = [this.deck.draw()];
-    this.gameOver = false;
-    this.currentPlayerIndex = 0;
-    this.direction = 1; // 1 = forward, -1 = backward
+  return false;
+}
 
-    while (!this.gameOver) {
-      console.log(`Current top card: ${this.discardPile[this.discardPile.length - 1].toString()}`);
-      console.log(`${this.players[this.currentPlayerIndex].name}'s turn.`);
+async function main() {
+  const playerName = await askQuestion("What is your name? ");
+  const numberOfOpponents = await askQuestion("How many players would you like to face? ");
+  const numPlayers = parseInt(numberOfOpponents) + 1;
 
-      let cardIndex;
-      if (this.players[this.currentPlayerIndex].isAI) {
-        cardIndex = this.players[this.currentPlayerIndex].basicAI(this.discardPile);
-      } else {
-        // Prompt the human player to choose a card
-        console.log("Your hand:");
-        this.players[this.currentPlayerIndex].hand.forEach((card, index) => {
-          console.log(`${index}: ${card.toString()}`);
-        });
+  console.log(`Player's name: ${playerName}`);
+  console.log(`Number of opponents: ${numberOfOpponents}`);
 
-        cardIndex = await new Promise((resolve) => {
-          rl.question("Enter the index of the card you'd like to play, or -1 to skip your turn: ", (answer) => {
-            resolve(parseInt(answer));
-          });
-        });
+  const deck = createDeck();
+  shuffleDeck(deck);
 
-        if (cardIndex === -1) {
-          cardIndex = null;
-        }
-      }
+  const players = dealCards(deck, numPlayers);
 
-      this.playTurn(this.currentPlayerIndex, cardIndex);
+  console.log("Face-up cards for all players:");
+  players.forEach((player, index) => {
+    console.log(`Player ${index === 0 ? playerName : index}:`, displayCards(player.faceUp));
+  });
 
-      if (this.gameOver) {
+  console.log(`\nCards in ${playerName}'s hand:`);
+  console.log(displayCards(players[0].hand));
+
+  console.log(`\nRemaining cards in the deck: ${deck.length}`);
+  console.log(displayCards(deck));
+
+  let currentPlayer = 0;
+  let pile = [];
+
+  while (!players.every(player => player.hand.length === 0 && player.faceUp.length === 0 && player.faceDown.length === 0)) {
+    if (currentPlayer === 0) {
+      const finishedTurn = await playTurn(players[currentPlayer], pile);
+
+      if (finishedTurn) {
         break;
       }
+    } else {
+      console.log(`Player ${currentPlayer}'s turn`);
 
-      const topCard = this.discardPile[this.discardPile.length - 1];
-      if (topCard.value === this.discardPile[this.discardPile.length - 2].value) {
-        console.log("Same card value played, skipping the next player's turn.");
-        this.currentPlayerIndex = (this.currentPlayerIndex + 2 * this.direction + this.players.length) % this.players.length;
-      } else if (topCard.value === '2') {
-        console.log("Lowest card played, reversing the order of play.");
-        this.direction = -this.direction;
-        this.currentPlayerIndex = (this.currentPlayerIndex + this.direction + this.players.length) % this.players.length;
-      } else {
-        this.currentPlayerIndex = (this.currentPlayerIndex + this.direction + this.players.length) % this.players.length;
-      }
+const validCards = players[currentPlayer].hand.filter(card => cardValue(card) >= cardValue(pile[pile.length - 1]));
+
+if (validCards.length > 0) {
+  validCards.sort((a, b) => cardValue(a) - cardValue(b));
+  const cardToPlay = validCards[0];
+  const cardIndex = players[currentPlayer].hand.indexOf(cardToPlay);
+
+  console.log(`Player ${currentPlayer} plays ${cardToPlay.value} of ${cardToPlay.suit}`);
+  players[currentPlayer].hand.splice(cardIndex, 1);
+  pile.push(cardToPlay);
+} else {
+  console.log(`Player ${currentPlayer} doesn't have a high enough card. They pick up all the cards.`);
+  players[currentPlayer].hand.push(...pile.splice(0));
+}
     }
-    rl.close();
+
+    if (deck.length > 0) {
+      const drawnCard = deck.pop();
+      players[currentPlayer].hand.push(drawnCard);
+    }
+
+    currentPlayer = (currentPlayer + 1) % numPlayers;
   }
+
+  console.log("\nThe game has ended.");
+  rl.close();
 }
 
-(async () => {
-  const game = new KarmaGame(5); // 1 human player + 4 AI opponents
-  await game.startGame();
-})();
+main();
