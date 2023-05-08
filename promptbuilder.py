@@ -1,34 +1,34 @@
-import requests
+import random
 
-def fetch_synonyms(word):
-    url = f'https://api.datamuse.com/words?rel_syn={word}'
-    response = requests.get(url)
-    synonyms = [result['word'] for result in response.json()]
-    return synonyms
+def generate_prompt():
+    # Define the categories and their associated keywords
+    categories = {
+        'animals': ['cat', 'dog', 'elephant', 'lion', 'tiger'],
+        'vehicles': ['car', 'motorcycle', 'bicycle', 'airplane', 'boat'],
+        'landscapes': ['beach', 'mountain', 'forest', 'desert', 'city'],
+        'objects': ['computer', 'chair', 'table', 'pencil', 'cup']
+    }
 
-def create_scene(description, background, time_of_day, mood):
-    elements = []
+    # Select a random category
+    category = random.choice(list(categories.keys()))
 
-    for category, word in [('description', description), ('background', background), ('time_of_day', time_of_day), ('mood', mood)]:
-        synonyms = fetch_synonyms(word)
-        if synonyms:
-            print(f"Synonyms found for {category}: '{word}':")
-            for i, synonym in enumerate(synonyms[:10]):
-                print(f"{i}: {synonym}")
-            indexes_to_remove = input("Enter the index numbers of the synonyms you want to remove, separated by commas: ").split(',')
-            for i, synonym in enumerate(synonyms[:10]):
-                if str(i) not in indexes_to_remove:
-                    elements.append(synonym)
-        else:
-            print(f"No synonyms found for {category}: '{word}'")
+    # Select a random keyword from the chosen category
+    keyword = random.choice(categories[category])
 
-    scene = f"A {description} ({', '.join(elements[:5])}) scene with a {background} ({', '.join(elements[5:10])}) background that takes place during {', '.join(elements[10:15])}, with a {', '.join(elements[15:])} mood."
-    return scene
+    # Define some adjectives to add variety to the generated prompts
+    adjectives = ['red', 'blue', 'large', 'small', 'futuristic', 'ancient']
 
-description = input("Please enter a short description: ")
-background = input("Please specify the background: ")
-time_of_day = input("Please specify the time of day: ")
-mood = input("Please specify the mood: ")
+    # Select a random adjective
+    adjective = random.choice(adjectives)
 
-# Create a scene with refined elements
-print(create_scene(description, background, time_of_day, mood))
+    # Combine the adjective and keyword to form the prompt
+    prompt = f"{adjective} {keyword}"
+
+    return prompt
+
+# Generate a random prompt
+generated_prompt = generate_prompt()
+print(f"Generated prompt: {generated_prompt}")
+
+# Use the generated prompt as input to Stable Diffusion
+# stable_diffusion_result = call_stable_diffusion_api(generated_prompt)
